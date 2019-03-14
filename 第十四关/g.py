@@ -1,26 +1,108 @@
-import random
-while True:
-    punches = ['石头','剪刀','布']
-    computer_choice = random.choice(punches)
-    user_choice = ''
-    user_choice = input('请出拳：（石头、剪刀、布）')  # 请用户输入选择
-    while user_choice not in punches:  # 当用户输入错误，提示错误，重新输入
-        print('输入有误，请重新出拳')
-        user_choice = input()
-    # 亮拳
-    print('————战斗过程————')
-    print('电脑出了：%s' % computer_choice)
-    print('你出了：%s' % user_choice)
+import time,random
 
-    # 胜负
-    print('—————结果—————')
-    if user_choice == computer_choice:  # 使用if进行条件判断
-        print('平局！')
-    # 电脑的选择有3种，索引位置分别是：0石头、1剪刀、2布。
-    # 假设在电脑索引位置上减1，对应：-1布，0石头，1剪刀，皆胜。
-    elif user_choice == punches[punches.index(computer_choice)-1]:
-        print('你赢了！')
-        break
+#需要的数据和变量放在开头
+player_list = ['【狂血战士】','【森林箭手】','【光明骑士】','【独行剑客】','【格斗大师】','【枪弹专家】']
+enemy_list =['【暗黑战士】','【黑暗弩手】','【暗夜骑士】','【嗜血刀客】','【首席刺客】','【陷阱之王】']
+players = random.sample(player_list,3)
+enemies = random.sample(enemy_list,3)
+player_info = {}
+enemy_info = {}
+
+#随机生成角色的属性
+def born_role():
+    life = random.randint(100,130)
+    attack = random.randint(30,35)
+    return life,attack
+
+#生成和展示角色信息
+def show_role():
+    for i in range(3):
+        player_info[players[i]] = born_role() 
+        enemy_info[enemies[i]] = born_role()
+    #展示我方的3个角色
+    print('----------------- 角色信息 -----------------')
+    print('你的人物')
+    for i in range(3):
+        print('%s  血量：%d  攻击：%d' %(players[i],player_info[players[i]][0],player_info[players[i]][1]))
+    print('--------------------------------------------')
+    print('电脑敌人')
+    #展示敌方的3个角色
+    for i in range(3):
+        print('%s  血量：%d  攻击：%d' %(enemies[i],enemy_info[enemies[i]][0],enemy_info[enemies[i]][1]))
+    print('--------------------------------------------')
+    input('请按回去键继续。\n')
+
+#角色排序，选择出场顺序。
+def order_role():
+    global players
+    order_dick = {}
+    for i in range(3):
+        order = int(input('你想将%s放在第几个上场？（输入数字1~3）' % players[i]))
+        order_dick[order] = players[i]
+
+    players = []
+    for i in range(1,4):
+        players.append(order_dick[i])
+    print('我方角色的出场顺序是 %s、%s、%s' %(players[0],players[1],players[2]))
+    print('敌方角色的出场顺序是 %s、%s、%s' %(enemies[0],enemies[1],enemies[2]))
+
+#角色pk
+def pk_role():
+    round = 1
+    score = 0
+    for i in range(3): #一共要打三局
+        player_name = players[i]
+        enemy_name = enemies[i]
+        player_life = player_info[players[i]][0]
+        player_attack = player_info[players[i]][1]
+        enemy_life = enemy_info[enemies[i]][0]
+        enemy_attack = enemy_info[enemies[i]][1]
+
+        #每一局开战前展示战斗信息
+        print('\n----------------- 【第%d局】 -----------------' % round)
+        print('玩家角色：%s vs 敌方角色：%s' %(player_name,enemy_name))
+        print('%s  血量：%d  攻击：%d' %(player_name,player_life,player_attack))
+        print('%s  血量：%d  攻击：%d' %(enemy_name,enemy_life,enemy_attack))
+        print('--------------------------------------------')
+        input('请按回车键继续。\n')
+
+        #开始判断血量是否都大于零，然后互扣血量
+        while player_life > 0 and enemy_life > 0:
+            enemy_life = enemy_life - player_attack
+            player_life = player_life - enemy_attack
+            print('%s发起了攻击，%s剩余血量%d' %(player_name,enemy_name,enemy_life))
+            print('%s发起了攻击，%s剩余血量%d' %(enemy_name,player_name,player_life))
+            print('--------------------------------------------')
+            time.sleep(1)
+        else: # 每局的战果展示，以及分数score和分局的变化
+            # 调用show_result()函数，打印返回元组中的result。
+            print(show_result(player_life,enemy_life)[1])
+            # 调用show_result()函数，完成计分变动。
+            score += int(show_result(player_life,enemy_life)[0])
+            round += 1
+        input('\n点击回车，查看比赛的最终结果\n')
+        if score > 0:
+            print('【最终结果：你赢了！】\n')
+        elif score < 0:
+            print('【最终结果：你输了！】\n')
+        else:
+            print('【最终结果：平局！】\n')
+# 返回单局战果和计分法所加分数
+def show_result(player_life,enemy_life):
+    if player_life > 0 and enemy_life <= 0:
+        result = '\n敌人死翘翘了，你赢了！'
+        return 1,result
+    elif player_life <= 0 and enemy_life > 0:
+        result = '\n悲催，敌人把你干掉了！'
+        return -1,result
     else:
-        print('你输了！')
-    input('你想继续的话就按下任意键：')
+        result = '\n你和敌人同归于尽了！'
+        return 0,result
+# （主函数）展开战斗流程
+def main():
+    show_role()
+    order_role()
+    pk_role()
+
+# 启动程序（即调用主函数）
+main()
