@@ -11,4 +11,6 @@ for i in files_lines:
     result = data[0] + str(num) + '\n'
     final_scores.append(result)
 
-print(final_scores)
+file2 = open('D:\\python\\test\\writing.txt','a',encoding='utf-8')
+file2.writelines(final_scores)
+file2.close()
