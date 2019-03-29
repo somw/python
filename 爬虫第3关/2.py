@@ -24,5 +24,6 @@ for a in list_foods:
     foodss = foods.text[1:-1]
     listfoods.append([aa,bb,foodss])
     #print(foods.text[1:-1])
+    print(bb)
 
-print(listfoods)
+#print(listfoods)
