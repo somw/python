@@ -9,8 +9,8 @@ soup = BeautifulSoup(html,'html.parser')
 aa = soup.find_all('div',class_='searchl')
 
 
-names = soup.find('input')['value']
-#namess = names-'关键字--点右边选项可分类搜索'
+names = soup.find('input')['value'][15:]
+
 name = input('输入电影名：%s' % names)
 
 
