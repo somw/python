@@ -1,5 +1,5 @@
 import requests
-#引用requests模块
+
 url = "https://c.y.qq.com/soso/fcgi-bin/client_search_cp"
 for x in range(1,5):
     params = {

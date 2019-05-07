@@ -1,5 +1,14 @@
-import requests
-#继续做储存cvs
+import requests,openpyxl
+wb = openpyxl.Workbook() #创建工作簿
+sheet = wb.active #获取工作簿的活动表
+sheet.title = 'mm' #工作表重命名
+
+sheet['A1'] = '歌曲名' #加表头，给A1单元格赋值
+sheet['B1'] = '所属专辑' #加表头，给B1单元格赋值
+sheet['C1'] = '播放时长' #加表头，给C1单元格赋值
+sheet['D1'] = '播放链接' #加表头，给D1单元格赋值
+
+
 url = 'https://c.y.qq.com/soso/fcgi-bin/client_search_cp'
 for x in range(5):
 
@@ -33,7 +42,10 @@ for x in range(5):
     json_music = res_music.json()
     list_music = json_music['data']['song']['list']
     for music in list_music:
-        print(music['name'])
-        print('所属专辑：' + music['album']['name'])
-        print('播放时长：' + str(music['interval']) + '秒')
-        print('播放链接：https://y.qq.com/n/yqq/song/' + music['file']['media_mid'] + '.html\n\n')
+        name = music['name']
+        album = music['album']['name']
+        time = music['interval']
+        link = 'https://y.qq.com/n/yqq/song/' + music['file']['media_mid'] + '.html\n\n'
+        sheet.append([name,album,time,link]) #把name,album,time和link写成列表，用append函数多行写入Excel
+        print('歌曲名：' + name + '\n' + '所属专辑：' + album + '\n' + '播放时长：' + str(time) + '\n' + '播放链接：' + link)
+wb.save('Jay.xlsx')
