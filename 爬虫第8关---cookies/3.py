@@ -6,14 +6,24 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 #添加请求头，避免被反爬虫
 url = 'https://h5.ele.me/restapi/eus/login/mobile_send_code'
 #登录的网址
+tel = input('请输入手机号码：')
 data = {
-	'mobile': '18522268833',
-	'scf': 'ms',
-	'validate_code': '"177326"',
-	'validate_token': '"20678afa382d726e8a4fd50258734752ba53bfff9e542a9f7feb4ad4f46d8689"',
+	'captcha_hash':'',
+	'captcha_value':'',
+	'mobile':tel,
+	'scf':'ms',
 }
-#登录的参数
-login = session.post(url, headers=headers,data=data)
+#发送验证码的参数
+token = session.post(url, headers=headers,data=data).json()['validate_token']
 #在会话下，用post发起登录请求
-cookies = login.cookies 
-print(login)
+print(token)
+
+login_url = 'https://h5.ele.me/restapi/eus/login/login_by_mobile'
+code = input('请输入验证码：')
+login_data = {	
+	'mobile':tel,
+	'scf':"ms",
+	'validate_code': code,
+	'validate_token': token,
+}
+session.post(login_url, headers=headers, data=login_data)
