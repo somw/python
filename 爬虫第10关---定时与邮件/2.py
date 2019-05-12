@@ -1,10 +1,14 @@
 import requests
-from bs4 import BeautifulSoup
-import smtplib 
-from email.mime.text import MIMEText
-from email.header import Header
 import schedule
 import time
+import smtplib
+from bs4 import BeautifulSoup
+from email.mime.text import MIMEText
+from email.header import Header
+
+account = input('请输入你的邮箱：')
+password = input('请输入你的密码：')
+receiver=input('请输入收件人的邮箱：')
 
 def weather_spider():
     headers={'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
@@ -18,9 +22,6 @@ def weather_spider():
     weather=data2.text
     return tem,weather
 
-account = input('请输入你的邮箱：')
-password = input('请输入你的密码：')
-receiver=input('请输入收件人的邮箱：')
 #请输入你的密码：oapjxyjhifrqbej
 def send_email(tem,weather):
     global account,password,receiver
@@ -38,7 +39,7 @@ def send_email(tem,weather):
         print ('邮件发送成功')
     except:
         print ('邮件发送失败')
-        qqmail.quit()
+    qqmail.quit()
 
 def job():
     print('开始一次任务')
@@ -46,7 +47,7 @@ def job():
     send_email(tem,weather)
     print('任务完成')
 
-# schedule.every().day.at("17:06").do(job) 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+schedule.every().day.at("22:59").do(job) 
+while True:
+    schedule.run_pending()
+    time.sleep(1)
