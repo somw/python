@@ -1,5 +1,6 @@
 from gevent import monkey
 monkey.patch_all()
+# monkey.patch_all()能把程序变成协作式运行，就是可以帮助程序实现异步   
 import gevent,requests,time
 from gevent.queue import Queue
 
