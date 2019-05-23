@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for douban project
+# Scrapy settings for dangdang project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,10 +9,10 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'douban'
+BOT_NAME = 'dangdang'
 
-SPIDER_MODULES = ['douban.spiders']
-NEWSPIDER_MODULE = 'douban.spiders'
+SPIDER_MODULES = ['dangdang.spiders']
+NEWSPIDER_MODULE = 'dangdang.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -47,13 +47,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'douban.middlewares.DoubanSpiderMiddleware': 543,
+#    'dangdang.middlewares.DangdangSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'douban.middlewares.DoubanDownloaderMiddleware': 543,
+#    'dangdang.middlewares.DangdangDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'douban.pipelines.DoubanPipeline': 300,
+#    'dangdang.pipelines.DangdangPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

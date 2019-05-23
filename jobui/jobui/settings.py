@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for douban project
+# Scrapy settings for jobui project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,10 +9,10 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'douban'
+BOT_NAME = 'jobui'
 
-SPIDER_MODULES = ['douban.spiders']
-NEWSPIDER_MODULE = 'douban.spiders'
+SPIDER_MODULES = ['jobui.spiders']
+NEWSPIDER_MODULE = 'jobui.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -47,13 +47,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'douban.middlewares.DoubanSpiderMiddleware': 543,
+#    'jobui.middlewares.JobuiSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'douban.middlewares.DoubanDownloaderMiddleware': 543,
+#    'jobui.middlewares.JobuiDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'douban.pipelines.DoubanPipeline': 300,
+#    'jobui.pipelines.JobuiPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -88,3 +88,7 @@ ROBOTSTXT_OBEY = False
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+FEED_URI='./storage/data/%(name)s.csv'
+FEED_FORMAT='CSV'
+FEED_EXPORT_ENCODING='utf-8'

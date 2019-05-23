@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 # 引用BeautifulSoup库
 
 res_foods = requests.get('http://www.xiachufang.com/explore/')
+print(res_foods)
 # 获取数据
 bs_foods = BeautifulSoup(res_foods.text,'html.parser')
 # 解析数据

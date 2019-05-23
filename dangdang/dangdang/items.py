@@ -8,8 +8,8 @@
 import scrapy
 
 
-class DoubanItem(scrapy.Item):
+class DangdangItem(scrapy.Item):
     # define the fields for your item here like:
-    title = scrapy.Field()
-    publish = scrapy.Field()
-    nums = scrapy.Field()
+    name = scrapy.Field()
+    anower = scrapy.Field()
+    price = scrapy.Field()
