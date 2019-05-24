@@ -5,7 +5,7 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+import scrapy 
 
 
 class JobuiItem(scrapy.Item):

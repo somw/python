@@ -19,12 +19,13 @@ class JobuiSpider(scrapy.Spider):
     
     def parse_job(self, response):
         bs = bs4.BeautifulSoup(response.text, 'html.parser')
-        company = bs.find(id='companyH1').text
+        company = bs.find('h1',id='companyH1').text.strip()
         cc = bs.find_all('div', class_='job-simple-content')
         for a in cc:
             item = JobuiItem()
             item['company'] = company
             item['position'] = a.find('div', class_='job-segmetation').find('h3').text
-            item['address'] = a.find('div', class_='job-desc').find('span').text
-            item['detail'] = a.find('div', class_='job-desc').find('span').text
+            spanall = a.find('div', class_='job-desc').findAll('span')
+            item['address'] = spanall[0].text
+            item['detail'] = spanall[1].text
             yield item
