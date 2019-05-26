@@ -6,7 +6,7 @@ from email.header import Header
 import schedule,time
 
 account = input('请输入你的电子邮箱：')
-password = input('请输入你的密码：')   #请输入你的密码：oapjxyjhifrqbej
+password = input('请输入你的密码：')   #请输入你的密码：lktqzpxrylgwbfh
 recipien = input('请输入收件人的电子邮箱：')
 
 def foods():
@@ -57,9 +57,9 @@ def job():
     list_all = foods() #创建一个实例化
     emails(list_all) 
     print('任务完成')
-    schedule.every(2).seconds.do(job)
-a = 0
-while a < 3:
-    a = a +1 
+
+schedule.every(2).seconds.do(job)
+
+while True:
     schedule.run_pending()
     time.sleep(1)
