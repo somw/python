@@ -1,10 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-url2 = 'https://demo.dscmall.cn/goods.php?id=843'
 headers={'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
-res1 = requests.get(url2,headers=headers)
-soup1 = BeautifulSoup(res1.text,'html.parser')
 
 url3 = 'https://demo.dscmall.cn/goods.php?act=price&id=843'
 params = {
@@ -22,6 +19,11 @@ resurl = res_price.json()
 gs_marktep =  resurl['result_market'].replace('<em>¥</em>','') # 市场价
 gs_shopp =  resurl['original_shop_price'] # 本店价
 gs_num = resurl['attr_number'] # 库存量
+
+
+url2 = 'https://demo.dscmall.cn/goods.php?id=843'
+res1 = requests.get(url2,headers=headers)
+soup1 = BeautifulSoup(res1.text,'html.parser')
 
 imgs = soup1.find('div',class_='spec-items').find_all('li')
 for a in imgs:
