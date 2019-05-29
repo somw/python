@@ -26,7 +26,7 @@ for x in range(5):
     'lasthotcommentid':commentid,
     'domain':'qq.com',
     'ct':'24',
-    'cv':'101010  '
+    'cv':'101010'
     }
     # 将参数封装为字典，其中pagenum和lastcommentid是特殊的变量
     res_comment = requests.get(url,params=params)
