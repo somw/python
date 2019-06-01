@@ -1,4 +1,17 @@
-张无忌
-宋青书
-张无忌
-宋青书
+﻿Option Explicit
+
+Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Long, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Long, ByVal lpfnCB As Long) As Long
+
+Sub download()
+  Dim arr, i, f, t, pth
+  t = Timer
+  pth = "d:\temp"
+  arr = [o1].CurrentRegion.Offset(1)
+  If Dir(pth, vbDirectory) = vbNullString Then MkDir pth
+  For i = 1 To UBound(arr, 1) - 1
+    f = Right(arr(i, 1), Len(arr(i, 1)) - InStrRev(arr(i, 1), "/"))
+    URLDownloadToFile 0, arr(i, 1), pth & "\" & f, 0, 0
+    Debug.Print arr(i, 1)
+  Next
+  Debug.Print Timer - t
+End Sub

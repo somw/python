@@ -21,11 +21,11 @@ class ShopSpider(scrapy.Spider):
     
     def parse_shop(self, response):
         item = ShopItem()
-        datas = json.dumps(response.text, ensure_ascii= False, indent=4, separators=(',', ': '))
-        resurl = json.loads(datas).encode('utf-8').decode('unicode_escape')
-        item['gs_marktep'] =  datas['result_market'].replace('<em>¥</em>','') # 市场价
-        item['gs_shopp'] =  resurl['original_shop_price'] # 本店价
-        item['gs_num'] = resurl['attr_number'] # 库存量
+        # datas = json.dumps(response.text, ensure_ascii= False, indent=4, separators=(',', ': '))
+        # resurl = json.loads(datas).encode('utf-8').decode('unicode_escape')
+        # item['gs_marktep'] =  datas['result_market'].replace('<em>¥</em>','') # 市场价
+        # item['gs_shopp'] =  resurl['original_shop_price'] # 本店价
+        # item['gs_num'] = resurl['attr_number'] # 库存量
 
         bs = bs4.BeautifulSoup(response.text, 'html.parser')
         imgs = bs.find('div',class_='spec-items').find_all('li')
@@ -37,15 +37,17 @@ class ShopSpider(scrapy.Spider):
 
 
         item['gs_dianpu'] = bs.findAll('dd',class_='column')[2].find('a').text # 店铺
-        if bs.findAll('div',class_='crumbs-nav-item')[2] == '':
-            item['gs_typeid'] = bs.findAll('div',class_='crumbs-nav-item')[1].find('span').text # 所属类型
+        if bs.findAll('div',class_='crumbs-nav-item')[2].find('span').text != '':
+            item['gs_typeid'] = bs.findAll('div',class_='crumbs-nav-item')[2].find('span').text # 所属类型
         else:
-            item['gs_typeid'] = bs.findAll('div',class_='crumbs-nav-item')[2].find('span').text
+            item['gs_typeid'] = bs.findAll('div',class_='crumbs-nav-item')[1].find('span').text
 
         item['gs_shopcateid'] = bs.findAll('div',class_='crumbs-nav-item')[0].find('span').text # 所属栏目
-        item['gs_name'] = bs.findAll('dd',class_='column')[0].find('span').text # 商品标题
-        item['gs_code'] = bs.findAll('dd',class_='column')[1].find('span').text[5:] # 商品编码
-        item['gs_weight'] = bs.findAll('dd',class_='column')[3].find('span').text[3:] # 重量
-        item['gs_time'] =  bs.findAll('dd',class_='column')[4].find('span').text[5:]  # 上架时间
+        item['gs_name'] = bs.findAll('dd',class_='column')[0].find('span').text[5:] # 商品标题
+        item['gs_code'] = bs.findAll('dd',class_='column')[1].find('span').text[1:] # 商品编码
+        item['gs_weight'] = bs.findAll('dd',class_='column')[3].find('span').text[1:3] # 重量
+        item['gs_time'] =  bs.findAll('dd',class_='column')[4].find('span').text[11:]  # 上架时间
+        
+        
         yield item
 
