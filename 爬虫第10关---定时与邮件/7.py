@@ -1,4 +1,4 @@
-import requests,csv,random,smtplib,time,schedule
+import requests,csv,random,smtplib,schedule,time
 from bs4 import BeautifulSoup
 from urllib.request import quote
 from email.mime.text import MIMEText
@@ -21,17 +21,17 @@ def get_movielist():
 			writer.writerow(lists)
 	csv_file.close()
 
-def get_readermovielist():
+def get_rmovielist():
 	movielist = []
 	csv_file = open('top250.csv','r',newline='',encoding='utf-8')
 	reader = csv.reader(csv_file)
 	for bb in reader:
 		movielist.append(bb[0])
 		# 以上，为读取豆瓣电影Top250榜单的csv文件，并写入列表movielist中
-		three_list = random.sample(movielist,3)
+	three_list = random.sample(movielist,3)
 		# 以上，是从列表movielist中，随机抽取三部电影，取出来的是一个列表。
 		# print(three_list)
-	content = ''
+	contents = ''
 	for cc in three_list:
 		gbkcc = cc.encode('gbk')
 		searchurl = 'http://s.ygdy8.com/plus/so.php?typeid=1&keyword='+quote(gbkcc)
@@ -46,14 +46,17 @@ def get_readermovielist():
 			res1.encoding = 'gbk'
 			soup_movies = BeautifulSoup(res1.text,'html.parser')
 			downloadurl = soup_movies.find('div', id='Zoom').find('span').find('table').find('a')['href']
-			content = cc + '\n' + downloadurl
+			content = cc + '\n' + downloadurl + '\n'
 			print(content)
+			contents = contents + content
+			
 		else:
-			content = '没有' + cc + '的下载链接'
+			content = '没有' + cc + '的下载链接' + '\n'
 			print(content)
-	return content
+		
+	return contents
 
-def sendlink(content):
+def sendlink(contents):
 	mailhost = 'smtp.qq.com'
 	qqmail = smtplib.SMTP()
 	qqmail.connect(mailhost,25)
@@ -63,7 +66,7 @@ def sendlink(content):
 	qqmail.login(account,password)
 
 	receiver = input('请输入对方的电子邮箱：')
-	message = MIMEText(content,'plain', 'utf-8')
+	message = MIMEText(contents,'plain', 'utf-8')
 	subject = '电影链接'
 	message['Subject'] = Header(subject,'utf-8')
 
@@ -76,8 +79,8 @@ def sendlink(content):
 
 def job():
 	get_movielist()
-	content = get_readermovielist()
-	sendlink(content)
+	contents = get_rmovielist()
+	sendlink(contents)
 
 schedule.every(2).seconds.do(job)
 
